@@ -1,11 +1,15 @@
-import { Hello } from "./components/Hello";
 import { Counter } from "./components/Counter";
+import { Mountains } from "./components/Mountains";
+import { Countries } from "./components/Countries";
 export const App = () => {
   return (
-    <>
+    <div class="body">
       <img alt="Vue logo" src="/logo.png" />
-      <Hello msg="Welcome to Your Vue.js + TypeScript App" />
-      <Counter />
-    </>
+      <div class="counter__wrapper">
+        <Counter />
+      </div>
+      <Countries />
+      <Mountains />
+    </div>
   );
 };

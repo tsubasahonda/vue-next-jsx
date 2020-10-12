@@ -1,0 +1,19 @@
+.button {
+  background-color: #777777;
+  border: none;
+  color: #ffffff;
+  display: inline-block;
+  border-radius: 16px;
+  padding: 4px 20px;
+  transition: background-color .2s ease-out;
+}
+
+.button:hover {
+  background-color: #888888;
+  cursor: pointer;
+}
+
+.button--selected {
+  background-color: #eeeeee;
+  color: #333;
+}
