@@ -1,6 +1,7 @@
-import { defineComponent, reactive, watch, watchEffect } from "vue";
+import { defineComponent, reactive, watchEffect } from "vue";
 import classnames from "classnames";
 import { getCountries } from "../../api/mountains";
+import { Button } from "../../components/Button";
 
 const Country = (props: {
   name: string;
@@ -8,12 +9,12 @@ const Country = (props: {
   onClick(e: MouseEvent): void;
 }) => {
   return (
-    <button
+    <Button
       onClick={props.onClick}
-      class={classnames("button", { "button--selected": props.selected })}
+      class={classnames({ "button--selected": props.selected })}
     >
       {props.name}
-    </button>
+    </Button>
   );
 };
 

@@ -1,16 +1,5 @@
 import { withModifiers, defineComponent, ref } from "vue";
-
-const CounterComponent = (props: {
-  count: number;
-  onClick: (e: MouseEvent) => void;
-}) => {
-  const { count, onClick } = props;
-  return (
-    <button class="button" onClick={onClick}>
-      {count}
-    </button>
-  );
-};
+import { Button } from "../Button";
 
 export const Counter = defineComponent({
   setup() {
@@ -21,10 +10,7 @@ export const Counter = defineComponent({
     };
 
     return () => (
-      <CounterComponent
-        onClick={withModifiers(inc, ["self"])}
-        count={count.value}
-      />
+      <Button onClick={withModifiers(inc, ["self"])}>{count.value}</Button>
     );
   }
 });
