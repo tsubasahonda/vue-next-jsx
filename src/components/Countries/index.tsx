@@ -1,12 +1,7 @@
 import classnames from "classnames";
 import { Button } from "../../components/Button";
-import { defineComponent, inject } from "vue";
-import {
-  MountainsKey,
-  UpdateCountryKey,
-  initialMountainsState,
-  initialUpdateCountry
-} from "../../compositions/mountains";
+import { defineComponent } from "vue";
+import { useMoutainsStateInjection } from "../../compositions/mountains";
 
 const Country = (props: {
   name: string;
@@ -25,8 +20,7 @@ const Country = (props: {
 
 export const Countries = defineComponent({
   setup() {
-    const mountains = inject(MountainsKey, initialMountainsState);
-    const updateMountains = inject(UpdateCountryKey, initialUpdateCountry);
+    const { mountains, updateCountry } = useMoutainsStateInjection();
     return () => (
       <div class="countries">
         <ul>
@@ -34,7 +28,7 @@ export const Countries = defineComponent({
             <li>
               <Country
                 name="all"
-                onClick={updateMountains(undefined)}
+                onClick={updateCountry(undefined)}
                 selected={mountains.selectedCountry === undefined}
               />
             </li>
@@ -43,7 +37,7 @@ export const Countries = defineComponent({
                 <li>
                   <Country
                     name={country}
-                    onClick={updateMountains(country)}
+                    onClick={updateCountry(country)}
                     selected={mountains.selectedCountry === country}
                   />
                 </li>

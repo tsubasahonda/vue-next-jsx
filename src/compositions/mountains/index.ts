@@ -1,5 +1,6 @@
 import { InjectionKey } from "vue";
-import { MountainType } from "../../api/mountains";
+import { MountainType, getMoutians, getCountries } from "../../api/mountains";
+import { reactive, watchEffect, readonly, provide, inject } from "vue";
 
 type MoutainsState = {
   mountains: MountainType[];
@@ -23,4 +24,68 @@ export const initialMountainsState: MoutainsState = {
 
 export const initialUpdateCountry: UpdateCountryState = () => () => {
   throw new Error("UpdateCountry is not provided");
+};
+
+export const useMoutainsStateProvide = () => {
+  const state: {
+    mountains: MountainType[];
+    countries: string[];
+    selectedCountry?: string;
+    selectedMountains: MountainType[];
+  } = reactive({
+    mountains: [],
+    countries: [],
+    selectedCountry: undefined,
+    selectedMountains: []
+  });
+
+  const readonlyState = readonly(state);
+
+  watchEffect(async cleanup => {
+    cleanup(() => {
+      console.log("bye");
+    });
+    const mountains = await getMoutians();
+    state.mountains = mountains;
+  });
+
+  watchEffect(cleanup => {
+    cleanup(() => {
+      console.log("clean countries");
+    });
+
+    const countries = getCountries(state.mountains);
+    state.countries = countries;
+  });
+
+  watchEffect(() => {
+    if (state.selectedCountry === undefined) {
+      state.selectedMountains = state.mountains;
+      return;
+    }
+    const selectedMountains = state.mountains.filter(mountain =>
+      mountain.countries.some(country => country === state.selectedCountry)
+    );
+    state.selectedMountains = selectedMountains;
+  });
+
+  const onSelectCountry = (selected?: string) => {
+    return (e: MouseEvent) => {
+      e.preventDefault();
+      state.selectedCountry = selected;
+    };
+  };
+
+  provide(MountainsKey, readonlyState);
+  provide(UpdateCountryKey, onSelectCountry);
+};
+
+export const useMoutainsStateInjection = () => {
+  const mountains = inject(MountainsKey, initialMountainsState);
+  const updateCountry = inject(UpdateCountryKey, initialUpdateCountry);
+
+  return {
+    mountains,
+    updateCountry
+  };
 };
