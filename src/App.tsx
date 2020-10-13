@@ -1,8 +1,9 @@
 import { Mountains } from "./components/Mountains";
 import { Countries } from "./components/Countries";
-import { defineComponent, reactive, readonly, watchEffect } from "vue";
+import { defineComponent, reactive, readonly, watchEffect, provide } from "vue";
 import { MountainType } from "./api/mountains";
 import { getCountries, getMoutians } from "./api/mountains";
+import { MountainsKey, UpdateCountryKey } from "./compositions/mountains";
 export const App = defineComponent({
   setup() {
     const state: {
@@ -54,15 +55,14 @@ export const App = defineComponent({
       };
     };
 
+    provide(MountainsKey, readonlyState);
+    provide(UpdateCountryKey, onSelectCountry);
+
     return () => (
       <div class="body">
         <img alt="Vue logo" src="/logo.png" />
-        <Countries
-          onSelectCountry={onSelectCountry}
-          selected={readonlyState.selectedCountry}
-          countries={readonlyState.countries}
-        />
-        <Mountains mountains={readonlyState.selectedMountains} />
+        <Countries />
+        <Mountains />
       </div>
     );
   }

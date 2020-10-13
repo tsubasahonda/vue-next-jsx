@@ -1,5 +1,7 @@
 import { MountainType } from "../../api/mountains";
-import { DeepReadonly } from "vue";
+import { DeepReadonly, inject } from "vue";
+import { defineComponent } from "vue";
+import { initialMountainsState, MountainsKey } from "@/compositions/mountains";
 
 const Mountain = (props: { mountain: DeepReadonly<MountainType> }) => {
   const { mountain } = props;
@@ -16,18 +18,17 @@ const Mountain = (props: { mountain: DeepReadonly<MountainType> }) => {
   );
 };
 
-type Props = {
-  mountains: DeepReadonly<MountainType[]>;
-};
-
-export const Mountains = (props: Props) => {
-  return (
-    <div class="mountains">
-      <ul>
-        {props.mountains.map(mountain => (
-          <Mountain mountain={mountain} />
-        ))}
-      </ul>
-    </div>
-  );
-};
+export const Mountains = defineComponent({
+  setup() {
+    const mountains = inject(MountainsKey, initialMountainsState);
+    return () => (
+      <div class="mountains">
+        <ul>
+          {mountains.selectedMountains.map(mountain => (
+            <Mountain mountain={mountain} />
+          ))}
+        </ul>
+      </div>
+    );
+  }
+});

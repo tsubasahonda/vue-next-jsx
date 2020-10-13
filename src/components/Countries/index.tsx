@@ -1,5 +1,12 @@
 import classnames from "classnames";
 import { Button } from "../../components/Button";
+import { defineComponent, inject } from "vue";
+import {
+  MountainsKey,
+  UpdateCountryKey,
+  initialMountainsState,
+  initialUpdateCountry
+} from "../../compositions/mountains";
 
 const Country = (props: {
   name: string;
@@ -16,37 +23,35 @@ const Country = (props: {
   );
 };
 
-type Props = {
-  countries: readonly string[];
-  selected?: string;
-  onSelectCountry: (country?: string) => (e: MouseEvent) => void;
-};
-
-export const Countries = (props: Props) => {
-  return (
-    <div class="countries">
-      <ul>
-        <>
-          <li>
-            <Country
-              name="all"
-              onClick={props.onSelectCountry(undefined)}
-              selected={props.selected === undefined}
-            />
-          </li>
-          {props.countries.map(country => {
-            return (
-              <li>
-                <Country
-                  name={country}
-                  onClick={props.onSelectCountry(country)}
-                  selected={props.selected === country}
-                />
-              </li>
-            );
-          })}
-        </>
-      </ul>
-    </div>
-  );
-};
+export const Countries = defineComponent({
+  setup() {
+    const mountains = inject(MountainsKey, initialMountainsState);
+    const updateMountains = inject(UpdateCountryKey, initialUpdateCountry);
+    return () => (
+      <div class="countries">
+        <ul>
+          <>
+            <li>
+              <Country
+                name="all"
+                onClick={updateMountains(undefined)}
+                selected={mountains.selectedCountry === undefined}
+              />
+            </li>
+            {mountains.countries.map(country => {
+              return (
+                <li>
+                  <Country
+                    name={country}
+                    onClick={updateMountains(country)}
+                    selected={mountains.selectedCountry === country}
+                  />
+                </li>
+              );
+            })}
+          </>
+        </ul>
+      </div>
+    );
+  }
+});
