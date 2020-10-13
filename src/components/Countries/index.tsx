@@ -1,6 +1,4 @@
-import { defineComponent, reactive, watchEffect } from "vue";
 import classnames from "classnames";
-import { getCountries } from "../../api/mountains";
 import { Button } from "../../components/Button";
 
 const Country = (props: {
@@ -18,52 +16,37 @@ const Country = (props: {
   );
 };
 
-export const Countries = defineComponent({
-  setup() {
-    const state: {
-      countries: Readonly<string[]>;
-      selected: Readonly<string>;
-    } = reactive({
-      countries: [],
-      selected: ""
-    });
+type Props = {
+  readonly countries: string[];
+  readonly selected?: string;
+  readonly onSelectCountry: (country?: string) => (e: MouseEvent) => void;
+};
 
-    watchEffect(async cleanup => {
-      cleanup(() => {
-        console.log("clean countries");
-      });
-
-      const countries = await getCountries();
-      state.countries = countries;
-    });
-
-    watchEffect(() => {
-      console.log(state.selected);
-    });
-
-    const onSelectCountry = (selected: string) => {
-      return (e: MouseEvent) => {
-        e.preventDefault();
-        state.selected = selected;
-      };
-    };
-
-    return () => (
-      <div class="countries">
-        <ul>
-          {state.countries.map(country => {
+export const Countries = (props: Props) => {
+  return (
+    <div class="countries">
+      <ul>
+        <>
+          <li>
+            <Country
+              name="all"
+              onClick={props.onSelectCountry(undefined)}
+              selected={props.selected === undefined}
+            />
+          </li>
+          {props.countries.map(country => {
             return (
               <li>
                 <Country
                   name={country}
-                  onClick={onSelectCountry(country)}
-                  selected={state.selected === country}
+                  onClick={props.onSelectCountry(country)}
+                  selected={props.selected === country}
                 />
               </li>
             );
           })}
-        </ul>
-      </div>
-    );
-  }
-});
+        </>
+      </ul>
+    </div>
+  );
+};
