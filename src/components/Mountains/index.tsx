@@ -1,6 +1,7 @@
 import { MountainType } from "../../api/mountains";
+import { DeepReadonly } from "vue";
 
-const Mountain = (props: { mountain: Readonly<MountainType> }) => {
+const Mountain = (props: { mountain: DeepReadonly<MountainType> }) => {
   const { mountain } = props;
   return (
     <div>
@@ -16,7 +17,7 @@ const Mountain = (props: { mountain: Readonly<MountainType> }) => {
 };
 
 type Props = {
-  readonly mountains: MountainType[];
+  mountains: DeepReadonly<MountainType[]>;
 };
 
 export const Mountains = (props: Props) => {

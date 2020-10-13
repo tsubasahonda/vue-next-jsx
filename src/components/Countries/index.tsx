@@ -17,9 +17,9 @@ const Country = (props: {
 };
 
 type Props = {
-  readonly countries: string[];
-  readonly selected?: string;
-  readonly onSelectCountry: (country?: string) => (e: MouseEvent) => void;
+  countries: readonly string[];
+  selected?: string;
+  onSelectCountry: (country?: string) => (e: MouseEvent) => void;
 };
 
 export const Countries = (props: Props) => {
