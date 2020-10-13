@@ -1,7 +1,7 @@
-import { defineComponent, reactive, watchEffect } from "vue";
-import { MountainType, getMoutians } from "../../api/mountains";
+import { MountainType } from "../../api/mountains";
+import { DeepReadonly } from "vue";
 
-const Mountain = (props: { mountain: Readonly<MountainType> }) => {
+const Mountain = (props: { mountain: DeepReadonly<MountainType> }) => {
   const { mountain } = props;
   return (
     <div>
@@ -16,32 +16,18 @@ const Mountain = (props: { mountain: Readonly<MountainType> }) => {
   );
 };
 
-export const Mountains = defineComponent({
-  setup() {
-    const state: { mountains: Readonly<MountainType>[] } = reactive({
-      mountains: []
-    });
+type Props = {
+  mountains: DeepReadonly<MountainType[]>;
+};
 
-    watchEffect(async cleanup => {
-      cleanup(() => {
-        console.log("bye");
-      });
-      const mountains = await getMoutians();
-      state.mountains = mountains;
-    });
-
-    watchEffect(() => {
-      console.log(state.mountains);
-    });
-
-    return () => (
-      <div class="mountains">
-        <ul>
-          {state.mountains.map(mountain => (
-            <Mountain mountain={mountain} />
-          ))}
-        </ul>
-      </div>
-    );
-  }
-});
+export const Mountains = (props: Props) => {
+  return (
+    <div class="mountains">
+      <ul>
+        {props.mountains.map(mountain => (
+          <Mountain mountain={mountain} />
+        ))}
+      </ul>
+    </div>
+  );
+};

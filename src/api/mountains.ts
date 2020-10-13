@@ -15,8 +15,7 @@ export const getMoutians = async () => {
   return data;
 };
 
-export const getCountries = async () => {
-  const mountains = await getMoutians();
+export const getCountries = (mountains: MountainType[]) => {
   const data = Array.from(
     new Set(mountains.flatMap(mountain => mountain.countries))
   );
