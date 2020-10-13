@@ -26,7 +26,7 @@ const Country = (props: {
 export const Countries = defineComponent({
   setup() {
     const mountains = inject(MountainsKey, initialMountainsState);
-    const updateMountains = inject(UpdateCountryKey, initialUpdateCountry);
+    const updateCountry = inject(UpdateCountryKey, initialUpdateCountry);
     return () => (
       <div class="countries">
         <ul>
@@ -34,7 +34,7 @@ export const Countries = defineComponent({
             <li>
               <Country
                 name="all"
-                onClick={updateMountains(undefined)}
+                onClick={updateCountry(undefined)}
                 selected={mountains.selectedCountry === undefined}
               />
             </li>
@@ -43,7 +43,7 @@ export const Countries = defineComponent({
                 <li>
                   <Country
                     name={country}
-                    onClick={updateMountains(country)}
+                    onClick={updateCountry(country)}
                     selected={mountains.selectedCountry === country}
                   />
                 </li>
