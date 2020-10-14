@@ -19,6 +19,7 @@ const Mountain = (props: { mountain: DeepReadonly<MountainType> }) => {
 };
 
 export const Mountains = defineComponent({
+  name: "Mountains",
   setup() {
     const { mountains } = useMoutainsStateInjection();
     return () => (

@@ -8,12 +8,13 @@ const Country = (props: {
   selected: boolean;
   onClick(e: MouseEvent): void;
 }) => {
+  const { onClick, selected, name } = props;
   return (
     <Button
-      onClick={props.onClick}
-      class={classnames({ "button--selected": props.selected })}
+      onClick={onClick}
+      class={classnames({ "button--selected": selected })}
     >
-      {props.name}
+      {name}
     </Button>
   );
 };
@@ -28,6 +29,7 @@ const useCountriesState = () => {
 };
 
 export const Countries = defineComponent({
+  name: "Countries",
   setup() {
     const { countries, selectedCountry, updateCountry } = useCountriesState();
     return () => (
