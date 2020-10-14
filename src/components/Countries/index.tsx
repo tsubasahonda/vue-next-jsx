@@ -1,67 +1,60 @@
-import { defineComponent, reactive, watchEffect } from "vue";
 import classnames from "classnames";
-import { getCountries } from "../../api/mountains";
 import { Button } from "../../components/Button";
+import { defineComponent, toRef } from "vue";
+import { useMoutainsStateInjection } from "../../compositions/mountains";
 
 const Country = (props: {
   name: string;
   selected: boolean;
   onClick(e: MouseEvent): void;
 }) => {
+  const { onClick, selected, name } = props;
   return (
     <Button
-      onClick={props.onClick}
-      class={classnames({ "button--selected": props.selected })}
+      onClick={onClick}
+      class={classnames({ "button--selected": selected })}
     >
-      {props.name}
+      {name}
     </Button>
   );
 };
 
+const useCountriesState = () => {
+  const { mountains, updateCountry } = useMoutainsStateInjection();
+  return {
+    countries: toRef(mountains, "countries"),
+    selectedCountry: toRef(mountains, "selectedCountry"),
+    updateCountry
+  };
+};
+
 export const Countries = defineComponent({
+  name: "Countries",
   setup() {
-    const state: {
-      countries: Readonly<string[]>;
-      selected: Readonly<string>;
-    } = reactive({
-      countries: [],
-      selected: ""
-    });
-
-    watchEffect(async cleanup => {
-      cleanup(() => {
-        console.log("clean countries");
-      });
-
-      const countries = await getCountries();
-      state.countries = countries;
-    });
-
-    watchEffect(() => {
-      console.log(state.selected);
-    });
-
-    const onSelectCountry = (selected: string) => {
-      return (e: MouseEvent) => {
-        e.preventDefault();
-        state.selected = selected;
-      };
-    };
-
+    const { countries, selectedCountry, updateCountry } = useCountriesState();
     return () => (
       <div class="countries">
         <ul>
-          {state.countries.map(country => {
-            return (
-              <li>
-                <Country
-                  name={country}
-                  onClick={onSelectCountry(country)}
-                  selected={state.selected === country}
-                />
-              </li>
-            );
-          })}
+          <>
+            <li>
+              <Country
+                name="all"
+                onClick={updateCountry(undefined)}
+                selected={selectedCountry.value === undefined}
+              />
+            </li>
+            {countries.value.map(country => {
+              return (
+                <li>
+                  <Country
+                    name={country}
+                    onClick={updateCountry(country)}
+                    selected={selectedCountry.value === country}
+                  />
+                </li>
+              );
+            })}
+          </>
         </ul>
       </div>
     );
