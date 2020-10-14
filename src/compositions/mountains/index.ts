@@ -27,17 +27,7 @@ export const initialUpdateCountry: UpdateCountryState = () => () => {
 };
 
 export const useMoutainsStateProvide = () => {
-  const state: {
-    mountains: MountainType[];
-    countries: string[];
-    selectedCountry?: string;
-    selectedMountains: MountainType[];
-  } = reactive({
-    mountains: [],
-    countries: [],
-    selectedCountry: undefined,
-    selectedMountains: []
-  });
+  const state: MoutainsState = reactive(initialMountainsState);
 
   const readonlyState = readonly(state);
 

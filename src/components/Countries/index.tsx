@@ -1,6 +1,6 @@
 import classnames from "classnames";
 import { Button } from "../../components/Button";
-import { defineComponent } from "vue";
+import { defineComponent, toRef } from "vue";
 import { useMoutainsStateInjection } from "../../compositions/mountains";
 
 const Country = (props: {
@@ -18,9 +18,18 @@ const Country = (props: {
   );
 };
 
+const useCountriesState = () => {
+  const { mountains, updateCountry } = useMoutainsStateInjection();
+  return {
+    countries: toRef(mountains, "countries"),
+    selectedCountry: toRef(mountains, "selectedCountry"),
+    updateCountry
+  };
+};
+
 export const Countries = defineComponent({
   setup() {
-    const { mountains, updateCountry } = useMoutainsStateInjection();
+    const { countries, selectedCountry, updateCountry } = useCountriesState();
     return () => (
       <div class="countries">
         <ul>
@@ -29,16 +38,16 @@ export const Countries = defineComponent({
               <Country
                 name="all"
                 onClick={updateCountry(undefined)}
-                selected={mountains.selectedCountry === undefined}
+                selected={selectedCountry.value === undefined}
               />
             </li>
-            {mountains.countries.map(country => {
+            {countries.value.map(country => {
               return (
                 <li>
                   <Country
                     name={country}
                     onClick={updateCountry(country)}
-                    selected={mountains.selectedCountry === country}
+                    selected={selectedCountry.value === country}
                   />
                 </li>
               );
