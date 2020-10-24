@@ -24,7 +24,7 @@ const useCountriesState = () => {
   return {
     countries: toRef(mountains, "countries"),
     selectedCountry: toRef(mountains, "selectedCountry"),
-    updateCountry
+    updateCountry,
   };
 };
 
@@ -43,7 +43,7 @@ export const Countries = defineComponent({
                 selected={selectedCountry.value === undefined}
               />
             </li>
-            {countries.value.map(country => {
+            {countries.value.map((country) => {
               return (
                 <li>
                   <Country
@@ -58,5 +58,5 @@ export const Countries = defineComponent({
         </ul>
       </div>
     );
-  }
+  },
 });
