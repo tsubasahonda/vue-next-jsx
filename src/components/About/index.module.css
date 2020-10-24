@@ -1,3 +1,4 @@
 .about {
-  color: red;
+  background-color: theme("colors.black");
+  color: theme("colors.white");
 }
