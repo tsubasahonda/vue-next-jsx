@@ -10,7 +10,7 @@ const Mountain = (props: { mountain: DeepReadonly<MountainType> }) => {
       <h3>{mountain.title}</h3>
       <time datetime={mountain.updatedAt}>{mountain.updatedAt}</time>
       <ul>
-        {mountain.countries.map(country => {
+        {mountain.countries.map((country) => {
           return <li>{country}</li>;
         })}
       </ul>
@@ -25,11 +25,11 @@ export const Mountains = defineComponent({
     return () => (
       <div class="mountains">
         <ul>
-          {mountains.selectedMountains.map(mountain => (
+          {mountains.selectedMountains.map((mountain) => (
             <Mountain mountain={mountain} />
           ))}
         </ul>
       </div>
     );
-  }
+  },
 });

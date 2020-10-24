@@ -1,4 +1,4 @@
-import { MountainType, getMoutians, getCountries } from "../../api/mountains";
+import { MountainType, getMoutians, getCountries } from "@/api/mountains";
 import {
   reactive,
   watchEffect,
@@ -6,7 +6,6 @@ import {
   provide,
   inject,
   InjectionKey,
-  ref
 } from "vue";
 
 type MoutainsState = {
@@ -26,7 +25,7 @@ export const initialMountainsState: MoutainsState = {
   mountains: [],
   countries: [],
   selectedCountry: undefined,
-  selectedMountains: []
+  selectedMountains: [],
 };
 
 export const initialUpdateCountry: UpdateCountryState = () => () => {
@@ -38,7 +37,7 @@ export const useMoutainsStateProvide = () => {
 
   const readonlyState = readonly(state);
 
-  watchEffect(async cleanup => {
+  watchEffect(async (cleanup) => {
     cleanup(() => {
       console.log("bye");
     });
@@ -46,7 +45,7 @@ export const useMoutainsStateProvide = () => {
     state.mountains = mountains;
   });
 
-  watchEffect(cleanup => {
+  watchEffect((cleanup) => {
     cleanup(() => {
       console.log("clean countries");
     });
@@ -60,8 +59,8 @@ export const useMoutainsStateProvide = () => {
       state.selectedMountains = state.mountains;
       return;
     }
-    const selectedMountains = state.mountains.filter(mountain =>
-      mountain.countries.some(country => country === state.selectedCountry)
+    const selectedMountains = state.mountains.filter((mountain) =>
+      mountain.countries.some((country) => country === state.selectedCountry)
     );
     state.selectedMountains = selectedMountains;
   });
@@ -83,6 +82,6 @@ export const useMoutainsStateInjection = () => {
 
   return {
     mountains,
-    updateCountry
+    updateCountry,
   };
 };
