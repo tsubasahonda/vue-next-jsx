@@ -12,5 +12,5 @@ export const Counter = defineComponent({
     return () => (
       <Button onClick={withModifiers(inc, ["self"])}>{count.value}</Button>
     );
-  }
+  },
 });

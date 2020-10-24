@@ -5,7 +5,7 @@
   display: inline-block;
   border-radius: 16px;
   padding: 4px 20px;
-  transition: all .15s ease-out;
+  transition: all 0.15s ease-out;
 }
 
 .button:hover {

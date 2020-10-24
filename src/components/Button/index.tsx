@@ -9,5 +9,5 @@ export const Button = defineComponent({
         {slots.default && slots.default()}
       </button>
     );
-  }
+  },
 });

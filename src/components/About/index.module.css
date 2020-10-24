@@ -1,0 +1,4 @@
+.about {
+  background-color: theme("colors.black");
+  color: theme("colors.white");
+}
