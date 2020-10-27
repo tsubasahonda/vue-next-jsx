@@ -1,0 +1,13 @@
+.header {
+  height: 64px;
+  width: 100%;
+}
+
+.navigation {
+  display: flex;
+  justify-content: right;
+}
+
+.navigation__item {
+  padding: 0 16px;
+}
