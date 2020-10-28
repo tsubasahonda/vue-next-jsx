@@ -25,17 +25,23 @@ export const Mountains = defineComponent({
     const { mountainsState } = useMoutainsStateInjection();
 
     return () => (
-      <div class="mountains">
-        <ul>
-          {mountainsState.selectedMountains.value.map((mountain) => (
-            <li>
-              <RouterLink to={`/mountains/${mountain.slug}`}>
-                <Mountain mountain={mountain} />
-              </RouterLink>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <>
+        {mountainsState.selectedMountains.value.length > 0 ? (
+          <div class="mountains">
+            <ul>
+              {mountainsState.selectedMountains.value.map((mountain) => (
+                <li>
+                  <RouterLink to={`/mountains/${mountain.slug}`}>
+                    <Mountain mountain={mountain} />
+                  </RouterLink>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          <div>loading..</div>
+        )}
+      </>
     );
   },
 });
