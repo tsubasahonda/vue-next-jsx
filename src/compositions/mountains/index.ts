@@ -2,7 +2,6 @@ import { MountainType, getMoutians, getCountries } from "@/api/mountains";
 import {
   reactive,
   watchEffect,
-  readonly,
   provide,
   inject,
   InjectionKey,
