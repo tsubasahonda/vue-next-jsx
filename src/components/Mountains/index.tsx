@@ -1,4 +1,5 @@
-import { MountainType } from "../../api/mountains";
+import { RouterLink } from "vue-router";
+import { MountainType } from "@/api/mountains";
 import { DeepReadonly } from "vue";
 import { defineComponent } from "vue";
 import { useMoutainsStateInjection } from "@/compositions/mountains";
@@ -21,12 +22,17 @@ const Mountain = (props: { mountain: DeepReadonly<MountainType> }) => {
 export const Mountains = defineComponent({
   name: "Mountains",
   setup() {
-    const { mountains } = useMoutainsStateInjection();
+    const { mountainsState } = useMoutainsStateInjection();
+
     return () => (
       <div class="mountains">
         <ul>
-          {mountains.selectedMountains.map((mountain) => (
-            <Mountain mountain={mountain} />
+          {mountainsState.selectedMountains.value.map((mountain) => (
+            <li>
+              <RouterLink to={`/mountains/${mountain.slug}`}>
+                <Mountain mountain={mountain} />
+              </RouterLink>
+            </li>
           ))}
         </ul>
       </div>

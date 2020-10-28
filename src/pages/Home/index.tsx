@@ -4,12 +4,10 @@ import { About } from "@/components/About";
 import { Header } from "@/components/Header";
 import { Description } from "@/components/Description";
 import { defineComponent } from "vue";
-import { useMoutainsStateProvide } from "@/compositions/mountains";
-export const Home = defineComponent({
-  name: "Home",
-  setup() {
-    useMoutainsStateProvide();
 
+export const Home = defineComponent({
+  name: "HomePage",
+  setup() {
     return () => (
       <div class="body">
         <Header />

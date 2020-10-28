@@ -1,0 +1,14 @@
+.mountain {
+  text-align: center;
+  width: 100%;
+}
+
+.mountain__title {
+  color: theme("colors.gray");
+  font-size: theme("fontSize.5xl");
+}
+
+.mountain__description {
+  padding-top: 48px;
+  font-size: theme("fontSize.2xl");
+}

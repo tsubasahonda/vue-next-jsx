@@ -6,6 +6,10 @@ import {
   provide,
   inject,
   InjectionKey,
+  toRefs,
+  ToRefs,
+  toRef,
+  computed,
 } from "vue";
 
 type MoutainsState = {
@@ -16,7 +20,9 @@ type MoutainsState = {
 };
 type UpdateCountryState = (country?: string) => (e: MouseEvent) => void;
 
-export const MountainsKey: InjectionKey<MoutainsState> = Symbol("MountainsKey");
+export const MountainsKey: InjectionKey<ToRefs<MoutainsState>> = Symbol(
+  "MountainsKey"
+);
 export const UpdateCountryKey: InjectionKey<UpdateCountryState> = Symbol(
   "UpdateCountryKey"
 );
@@ -36,6 +42,7 @@ export const useMoutainsStateProvide = () => {
   const state: MoutainsState = reactive(initialMountainsState);
 
   const readonlyState = readonly(state);
+  // const stateRef = toRefs(state);
 
   watchEffect(async (cleanup) => {
     cleanup(() => {
@@ -72,16 +79,34 @@ export const useMoutainsStateProvide = () => {
     };
   };
 
-  provide(MountainsKey, readonlyState);
+  provide(MountainsKey, toRefs(state));
   provide(UpdateCountryKey, onSelectCountry);
 };
 
 export const useMoutainsStateInjection = () => {
-  const mountains = inject(MountainsKey, initialMountainsState);
+  const mountainsState = inject(MountainsKey, toRefs(initialMountainsState));
   const updateCountry = inject(UpdateCountryKey, initialUpdateCountry);
 
   return {
-    mountains,
+    mountainsState,
     updateCountry,
   };
+};
+
+export const useMountainState = (slug: string) => {
+  const { mountainsState } = useMoutainsStateInjection();
+
+  const state = reactive({
+    mountain: computed(() => {
+      return mountainsState.mountains.value.filter((mountain) => {
+        return mountain.slug === slug;
+      })[0];
+    }),
+  });
+
+  watchEffect(() => {
+    console.log(state.mountain);
+  });
+
+  return toRefs(state);
 };
