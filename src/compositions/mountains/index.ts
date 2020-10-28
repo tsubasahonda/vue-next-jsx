@@ -8,8 +8,6 @@ import {
   InjectionKey,
   toRefs,
   ToRefs,
-  toRef,
-  computed,
 } from "vue";
 
 type MoutainsState = {
@@ -40,9 +38,6 @@ export const initialUpdateCountry: UpdateCountryState = () => () => {
 
 export const useMoutainsStateProvide = () => {
   const state: MoutainsState = reactive(initialMountainsState);
-
-  const readonlyState = readonly(state);
-  // const stateRef = toRefs(state);
 
   watchEffect(async (cleanup) => {
     cleanup(() => {
@@ -91,22 +86,4 @@ export const useMoutainsStateInjection = () => {
     mountainsState,
     updateCountry,
   };
-};
-
-export const useMountainState = (slug: string) => {
-  const { mountainsState } = useMoutainsStateInjection();
-
-  const state = reactive({
-    mountain: computed(() => {
-      return mountainsState.mountains.value.filter((mountain) => {
-        return mountain.slug === slug;
-      })[0];
-    }),
-  });
-
-  watchEffect(() => {
-    console.log(state.mountain);
-  });
-
-  return toRefs(state);
 };
