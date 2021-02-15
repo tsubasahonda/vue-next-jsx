@@ -1,4 +1,4 @@
-import { defineComponent, computed, reactive, watchEffect } from "vue";
+import { defineComponent, computed, reactive } from "vue";
 import { Header } from "@/components/Header";
 import { useRoute } from "vue-router";
 import styles from "./index.module.css";
